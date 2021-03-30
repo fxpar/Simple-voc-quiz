@@ -14,6 +14,7 @@
 * [x] passes to next question on success
 * [x] show success / failures as dashes in top bar
 * [x] starts again after vocabulary list is over
+* [x] responsive width adapt for 600px device
 * [ ] choose which column is used as question
 * [ ] choose which column is used as expected answer
 * [ ] filter a long list of vocabulary by start / end question
