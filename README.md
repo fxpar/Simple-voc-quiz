@@ -5,7 +5,7 @@
 ![écran vocabulaire](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz-2.png)
 
 # Features
-* [x] paste from Excel / LibreOffice
+* [x] paste from Excel / LibreOffice (detect "tab" separators)
 * [x] use first column as question
 * [x] expect second column as answer
 * [x] other columns are not used
