@@ -1,6 +1,8 @@
 # Simple-voc-quiz
 
-![image](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz.png)
+![simple voc quiz écran](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz.png)
+
+![écran vocabulaire](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz-2.png)
 
 # Features
 * [x] paste from Excel / LibreOffice
