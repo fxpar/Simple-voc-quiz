@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title>title</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+	<meta name="robots" content="index,follow" />
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+	<style>
+		body {
+	
+	}
+	#qbar {text-align:left;}
+	.w {color:lightgrey;}
+	.c {color:grey;}
+
+	
+		#qcue{
+	min-height:40px;
+	}
+	summary {
+
+		margin-left:25%;
+	}
+
+	#qlabel, summary{
+	color: grey;
+	}
+	.card {
+	text-align:center;
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
+	margin:auto;
+	width:50%;
+	 min-width: 200px;
+	 height: 200px;
+	 
+	}
+	
+	@media only screen and (max-width: 600px) {
+  .card {
+	margin:auto;
+	text-align:center;
+	width:90%;
+	 height: 200px;
+	}
+	
+	summary {
+		margin-left:5%;
+	}
+}
+	
+	</style>
+
+	<script>
+function Person(name) {
+  this.name = name;
+  this.qnum = 0;
+  this.uanswer = "";
+  this.greeting = function() {
+    alert('Hi! I\'m ' + this.name + '.');
+  };
+}
+
+function Quiz(name) {
+	this.name = name;
+	this.separator = '\t';
+	this.jsonObj = [];
+	this.headers = [];
+	this.needcheck = false;
+	this.iswrong = false;
+	this.iscorrect = true;
+	this.qnum = 0;
+	this.started = false;
+	this.finished = false;
+	this.qcue = ""; 
+	this.qanswer ="";
+	this.qCol ="";
+	this.qlabel = "";
+
+	this.load = function(){
+		console.log("this.load");
+		this.jsonObj = [];
+		this.qnum = 0;
+		//Object.keys(this.jsonObj).forEach(k => delete this.jsonObj[k]);
+		//for (var member in this.jsonObj) delete this.jsonObj[member];
+		document.getElementById("qbar").innerHTML ="&nbsp;";
+		document.getElementById("uanswer").value = "";
+		rawVoc = document.getElementById("voc1").value;
+		//alert(rawVoc);
+		arr = rawVoc.split('\n'); 
+		
+		var sep = '\t'; // separator used
+			
+		this.headers = arr[0].split(sep);
+		for(var i = 1; i < arr.length; i++) {
+		  var data = arr[i].split(sep);
+		  var obj = {};
+		  for(var j = 0; j < data.length; j++) {
+			 obj[this.headers[j].trim()] = data[j].trim();
+		  }
+		  this.jsonObj.push(obj);
+		}
+		this.qCol = quiz.headers[0];
+		this.qlabel = quiz.headers[1];
+		console.log(this.jsonObj);
+	}
+	
+	this.setquestion = function(){
+		console.log("this.setquestion");
+		
+		if (this.finished == true){
+			console.log("setquestion: finished = true");
+			init();
+		}else if (typeof this.jsonObj !== "undefined" && this.jsonObj && this.jsonObj.length >= this.qnum +1){
+			
+			this.qanswer = this.jsonObj[this.qnum][this.qlabel];
+			console.log("expected:"+this.qanswer);
+			this.qcue = this.jsonObj[this.qnum][this.qCol];
+			
+			document.getElementById("qcorr").innerHTML ="&nbsp;";
+			
+			document.getElementById("qcue").innerHTML = this.qcue;
+			document.getElementById("qlabel").innerHTML = this.qlabel;
+			this.needcheck = true;
+			console.log("this.setquestion done");
+		}else{
+		this.finished = true;
+		document.getElementById("qcue").innerHTML = "c'est fini!";
+		document.getElementById("qcorr").innerHTML = "&nbsp;";
+		document.getElementById("uanswer").value ="";
+		}
+	}
+	
+
+	
+	
+	this.next = function(){
+		/* console.log(this.needcheck);
+		console.log("qanswer:"+this.qanswer);
+		console.log("uanswer:"+document.getElementById("uanswer").value);
+		*/
+		
+		// if needcheck and correct
+		if (this.needcheck == true && document.getElementById("uanswer").value == this.qanswer ) {
+			console.log("correct");
+			document.getElementById("uanswer").value ="";
+			this.needcheck = false;
+			document.getElementById("qbar").innerHTML =document.getElementById("qbar").innerHTML + "<span class='c'>—&nbsp;</span>";
+			this.qnum++;
+			this.setquestion();
+		
+		// if needcheck not correct
+		}else if(this.needcheck == true){
+			console.log("wrong");
+			document.getElementById("uanswer").value ="";
+			document.getElementById("qbar").innerHTML =document.getElementById("qbar").innerHTML + "<span class='w'>—&nbsp;</span>";
+			document.getElementById("qcorr").innerHTML = this.qanswer;
+			this.needcheck = false;
+			
+		// 
+		}else{
+			this.qnum++;
+		this.setquestion();
+		}
+		//document.getElementById("uanswer").innerHTML = this.uanswer;
+		
+	}
+}
+	
+	function init(){
+		
+		// avec let ou const l'objet quiz n'est plus disponible en dehors
+		// notamment via le onclick quiz.next
+		quiz = new Quiz('qz1');
+		quiz.load();
+		<!-- console.log(quiz.jsonObj); -->
+		<!-- console.log(quiz.headers[1]); -->
+		<!-- console.log(quiz.jsonObj[0]["Chinois"]); -->
+		quiz.setquestion(0);
+		
+	}
+	
+	
+	</script>
+	
+	
+	
+</head>
+
+<body  onload="init();">
+<div class="card">
+	<div id="qbar">&nbsp;</div>
+	<div id="qnum">&nbsp;</div>
+	<div id="qcue">&nbsp;</div>
+	<div id="qcorr">&nbsp;</div>
+	<form action="#" autocomplete="off">
+		<label id="qlabel" for="uanswer">vocabulaire</label>
+		<input type="text" id="uanswer"></input>
+		<button onclick="quiz.next();">&nbsp; ▻ &nbsp;</button>
+	</form>
+</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+
+<details>
+<summary>💬voc</summary>
+
+<textarea  type="text" rows="5" style="width:100%" id="voc1" >
+Chinois	Pin1yin1	Pinyin	English
+早上	zao3 shang	zǎo shang	morning
+中午	zhong1 wu3	zhōng wǔ	noon
+下午	xia4 wu3	xià wǔ	afternoon</textarea>
+<button onclick="init();">update</button>
+
+</details>
+</body>
+</html>
