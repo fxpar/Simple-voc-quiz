@@ -143,7 +143,7 @@ function Quiz(name) {
 		*/
 		
 		// if needcheck and correct
-		if (this.needcheck == true && document.getElementById("uanswer").value == this.qanswer ) {
+		if (this.needcheck == true && document.getElementById("uanswer").value.toLowerCase() == this.qanswer.toLowerCase() ) {
 			console.log("correct");
 			document.getElementById("uanswer").value ="";
 			this.needcheck = false;
@@ -195,7 +195,7 @@ function Quiz(name) {
 	<div id="qnum">&nbsp;</div>
 	<div id="qcue">&nbsp;</div>
 	<div id="qcorr">&nbsp;</div>
-	<form action="#" autocomplete="off">
+	<form action="#" autocomplete="off" onsubmit="return false">
 		<label id="qlabel" for="uanswer">vocabulaire</label>
 		<input type="text" id="uanswer" autofocus></input>
 		<button onclick="quiz.next();">&nbsp; ▻ &nbsp;</button>
