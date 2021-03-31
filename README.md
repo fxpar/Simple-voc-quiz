@@ -15,6 +15,8 @@
 * [x] show success / failures as dashes in top bar
 * [x] starts again after vocabulary list is over
 * [x] responsive width adapt for 600px device
+* [x] do not go up of the page when submitting answer
+* [x] don't care about lower / upper case (for mobile and tablet with auto capitalization)
 * [ ] strip empty rows in vocabulary
 * [ ] choose which column is used as question
 * [ ] choose which column is used as expected answer
