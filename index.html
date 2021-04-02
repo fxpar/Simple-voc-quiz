@@ -67,6 +67,8 @@
      * @property {function} show - affiche les éléments sur la page
      * @property {function} load - charge les questions du vocabulaire
      * @property {function} play - joue la question suivante, ou la fin, ou le redémarrage
+	 * @todo: ajouter barre de progression - - - 
+	 * @todo: ajouter un json avec l'internationalisation 
      **/
 function Quiz(){
    
@@ -159,7 +161,12 @@ function Quiz(){
 		}
 	}
 
-
+/**
+ * Principale fonction pour afficher les questions 
+ * passer à la questions suivantes
+ * vérifier les questions, afficher le succès, recommencer.
+ * Déclenchée au chargement de la page et à chaque clique sur le bouton suivant.
+ **/
 this.play = function(){
 	if (this.state == "notReady"){
 		this.load();
