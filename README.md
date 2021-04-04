@@ -1,3 +1,4 @@
+![works also offline](https://img.shields.io/badge/Ready for Offline-100%25-green)
 # Simple-voc-quiz
 
 ![simple voc quiz écran](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz.png)
