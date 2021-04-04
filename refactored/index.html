@@ -52,6 +52,9 @@ body {
 	transition: color 0.2s, background-color 0.2s, border-color 0.2s;
 }
 
+.settings {
+	margin:20px;
+}
 
 	#qbar {
         /* style de la barre du haut avec les traits pour chaque réponse */
@@ -89,8 +92,28 @@ body {
 	width:50%;
 	 min-width: 200px;
 	 height: 200px;
-	 
 	}
+
+label{
+	color: indigo;
+
+}
+
+input[type=number]{
+	border:0px ;
+	border-bottom:1px solid lightgrey;
+	width:50%;
+	color:grey;
+	line-height: 1.5;
+	
+}
+
+#updatebtn {
+	background-color: indigo;
+	color:white;
+	font-size: 1.5;
+	line-height: 2;
+}
 	
 	@media only screen and (max-width: 600px) {
   .card {
@@ -258,11 +281,13 @@ function Quiz(){
 
 	this.translateAll = function(){
 		this.translateId("userguide", undefined, "innerHTML");
+		this.translateId("voc1label", undefined, "innerHTML");
 		this.translateId("startnumlabel", undefined, "innerHTML");
 		this.translateId("startnumlabel", "startnumlabeltitle", "title");
 		this.translateId("maxroundlabel", undefined, "innerHTML");
 		this.translateId("maxroundlabel", "maxroundlabeltitle", "title");
 		this.translateId("maxnumlabel", undefined, "innerHTML");
+		this.translateId("forcefeedlabel", undefined, "innerHTML");
 		this.translateId("questioncollabel", undefined, "innerHTML");
 		this.translateId("answercollabel", undefined, "innerHTML");
 		this.translateId("updatebtn", undefined, "innerHTML");
@@ -502,7 +527,8 @@ this.resetBar = function(){
 		
 		
 	  </section>
-
+	<br />
+	<br />
 <div class="card">
 	
 	<div id="qbar">&nbsp;</div>
@@ -521,6 +547,8 @@ this.resetBar = function(){
 
 <details>
 <summary>💬voc</summary>
+
+<div class="settings">
 <div id="userguide"></div>
 <form name="vocForm" id="vocForm"  autocomplete="off" action="#" onsubmit="return false">
 	<br />
@@ -531,8 +559,8 @@ this.resetBar = function(){
 
 </select> -->
 
-
-<textarea  type="text" rows="5" style="width:100%" id="voc1" >
+<label for="voc1" id="voc1label">Paste your voc from a table (with titles)</label>
+<textarea  type="text" rows="5" style="width:100%" id="voc1" name="voc1" >
 hanzi	pin1yin1	pīnyīn	english	french	id
 人	ren2	rén	person		1
 女人	nü3 ren2	nǚ rén	woman		2
@@ -594,7 +622,7 @@ hanzi	pin1yin1	pīnyīn	english	french	id
 	<br />
 	<label for="maxround" id="maxroundlabel">Colonne de la réponse</label>
 	<br />
-	<input type="maxround" id="maxround" name="maxround" value="3"/>
+	<input type="number" id="maxround" name="maxround" value="3"/>
 
 	<br />
 	<br />
@@ -604,6 +632,8 @@ hanzi	pin1yin1	pīnyīn	english	french	id
 	<br />
 <button onclick="quiz.init();" id="updatebtn">update</button>
 </form>
+
+</div>
 </details>
 <script type="application/json" id="i18n">
 {
@@ -618,13 +648,18 @@ hanzi	pin1yin1	pīnyīn	english	french	id
 	},
 
 	"userguide": {
-		"fr": "Collez directement le vocabulaire depuis un tableur (Excel, libreoffice, google sheet, number...<br/> Seulement deux colonnes sont nécessaires.",
-		"en": "Simply paste your vocabulary from any spreadsheet (Excel, libreoffice, google, sheet, number...<br /> Only two column are required."
+		"fr": "Collez directement le vocabulaire depuis un tableur (Excel, libreoffice, google sheet, number...<br/> Il vous faut au moins deux colonnes.<br/> Et cliquez sur le bouton \"mettre à jour\"",
+		"en": "Simply paste your vocabulary from any spreadsheet (Excel, libreoffice, google, sheet, number...<br /> You need at least two columns.<br/>And click on the \"update\" button."
 	}, 
 
 	"startnumlabel": {
 		"fr": "N° début: ",
 		"en": "Start number: "
+	},
+
+	"voc1label": {
+		"fr": "collez votre vocabulaire depuis un tableau (avec les titres)",
+		"en": "Paste your vocabulary from a table (with the column titles) "
 	},
 
 	"startnumlabeltitle": {
