@@ -1,5 +1,5 @@
 # Try it here on github
-!(https://fxpar.github.io/Simple-voc-quiz/refactored/?#)
+[https://fxpar.github.io/Simple-voc-quiz/refactored/?#](https://fxpar.github.io/Simple-voc-quiz/refactored/?#)
 
 
 # Simple-voc-quiz
@@ -26,6 +26,8 @@
 * [ ] choose which column is used as expected answer
 * [ ] filter a long list of vocabulary by start / end question
 * [ ] filter vocabulary by a "tag" column
-# Demo
 
-https://www.fxparlant.net/quiz-de-revision-du-vocabulaire/
+
+# Demo on my pedagogy blog
+
+[https://www.fxparlant.net/quiz-de-revision-du-vocabulaire/](https://www.fxparlant.net/quiz-de-revision-du-vocabulaire/)
