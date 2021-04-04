@@ -52,6 +52,7 @@ body {
 	transition: color 0.2s, background-color 0.2s, border-color 0.2s;
 }
 
+
 	#qbar {
         /* style de la barre du haut avec les traits pour chaque réponse */
         text-align:left;}
@@ -61,7 +62,11 @@ body {
 	.c {
         /* couleur des bonnes réponses Correct */
         color:grey;}
-
+	
+	#rounds {
+		text-align: right;
+		margin-right:5px;
+	}
 	
 		#qcue{
             /* style de la question */
@@ -114,20 +119,32 @@ body {
 function Quiz(){
    
     console.log("initialize quiz");
+	this.userLang = navigator.language || navigator.userLanguage; // la langue préférée du navigateur
+	// certaines langues donnent 4 charactères (ex: en-US), on ne prend donc que les deux premières lettres
+	this.userLang = this.userLang.substring(0,2);
+	// console.log(this.userLang);
+	this.trans = JSON.parse(document.getElementById('i18n').innerHTML);
+	//  console.log(this.trans["description"]["en"]);
+	 
+	//  console.log(this.trans.description["en"]);
+
     this.sep = "\t"; // separateur par défaut pour découper le vocabulaire
     this.defaultSource = document.getElementById("voc1");// définit l'élément qui contient la source par défaut où trouver le vocabulaire
     this.headers = []; //entête du vocabulaire = les titres
     this.jsonObj = []; // array d'objets contenant chaque éléments de vocabulaire
-	this.txtLevel =document.getElementById("levels").selected; // nom du niveau selectionné par la liste déroulante id=levels
-	this.levels = new Set(); // un "set" est un array unique, sans doublons. on est sûr qu'il ne seront pas répétés.
-	this.levelIndex = 0;
+	//this.txtLevel =document.getElementById("levels").selected; // nom du niveau selectionné par la liste déroulante id=levels
+	this.levels = new Set(); // deprecated: un "set" est un array unique, sans doublons. on est sûr qu'il ne seront pas répétés.
+	this.levelIndex = 0; // deprecated: ici j'ai désactivé le fonctions qui classaient les questions par niveau
 	this.questionSet = []; // filtre du vocabulaire sur le niveau choisi
     this.qnum =0; // initialisation du numéro de la question à 0
-	this.state = "notReady";
-	this.numLevelCol = 0;
-	this.numQstCueCol = 1;
-	this.numQstAnswCol = 2;
-    
+	this.state = "notReady"; // permet de passer d'un état du quiz au suivant. Par défaut "notReady"
+	this.numLevelCol = 0; // non utilisé ici
+	this.numQstCueCol = 0; // numéro de la colonne contenant la question
+	this.numQstAnswCol = 1; // numéro de la colonne contenant la réponses
+	this.startnum=1; // numéro de la question de départ (pas besoin d'une colonne avec numéro dans le vocabulaire)
+	this.maxnum=10; // nombre de questions d'un tour de quiz
+	this.maxround = 3;
+	this.round = 0; // sert pour passer au round suivant de questions quand 3 round sans erreurs sont atteints    
 /**
  * Affiche les différents éléments
  * Tous les paramètres sont du texte
@@ -155,9 +172,14 @@ function Quiz(){
     this.load = function(){
        
 		console.log("this.load");
+		//charge les numéro des colonnes pour le cas d'un update
+		this.numQstCueCol = document.getElementById("colquestion").value-1; // numéro de la colonne contenant la question
+		this.numQstAnswCol = document.getElementById("colanswer").value-1; // numéro de la colonne contenant la réponses
+		this.maxround = document.getElementById("maxround").value; // nombre de répétitions avant passage au jeu suivant
+		document.getElementById("qbar").innerHTML ="&nbsp;"; // met à zéro la barre de progression
 		// enregistre le numéro du niveau actuel dans la liste des "levels"
-		this.levelIndex = document.getElementById("levels").selectedIndex;
-		console.log("niveau avant update:"+this.levelIndex);
+		//this.levelIndex = document.getElementById("levels").selectedIndex;
+		//console.log("niveau avant update:"+this.levelIndex);
         // remet à 0 le jsonObj pour que ça n'ajoute pas les nouvelles questions aux précédentes
 		this.jsonObj = [];
         // charger la source par défaut textarea id=voc1
@@ -196,6 +218,56 @@ function Quiz(){
 		this.state = "ready";
 	}
 
+
+	/***********************
+	 * INTERNATIONALISATION
+	 * *********************/
+
+	/**
+	 * Traduit l'interface et les message dans la langue du navigateur
+	 * ou la langue par défaut (en) à partir du json stocké dans le script id="i18n"
+	 * Le script est chargé dès le début du quiz
+	 * @param {string} name - le nom de la chaîne à traduire
+	 * */
+	this.i18n = function(name){
+		if (typeof this.trans[name][this.userLang] == undefined){
+			return this.trans[name]["en"];
+		}else{
+			return this.trans[name][this.userLang];
+		}
+	}
+
+	/**
+	 * traduit un élément à partir de son id, du nom de la chaîne à traduire et de la partie à traduire (valeur, innerHTML...)
+	 * @param {string} id : l'id de l'élément à traduire
+	 * @param {string} name : le nom de la chaîne à traduire. Ex: "description" ou "title"
+	 * @param {string} v : la partie de l'élément à traduire: value (pour une zone de texte), innerHTML ou text...
+	 * */
+	this.translateId = function(id, name=id, v="value"){
+		//console.log(this.i18n(name));
+		
+		document.getElementById(id)[v] = this.i18n(name);
+		//console.log("test");
+		//console.log(document.getElementById(id).v);
+		//console.log(document.getElementById(id).innerHTML);
+	}
+
+/**
+ * Traduit chacune des parties de l'interface
+ * */
+
+	this.translateAll = function(){
+		this.translateId("userguide", undefined, "innerHTML");
+		this.translateId("startnumlabel", undefined, "innerHTML");
+		this.translateId("startnumlabel", "startnumlabeltitle", "title");
+		this.translateId("maxroundlabel", undefined, "innerHTML");
+		this.translateId("maxroundlabel", "maxroundlabeltitle", "title");
+		this.translateId("maxnumlabel", undefined, "innerHTML");
+		this.translateId("questioncollabel", undefined, "innerHTML");
+		this.translateId("answercollabel", undefined, "innerHTML");
+		this.translateId("updatebtn", undefined, "innerHTML");
+	}
+
 	/**
 	 * Créer la list déroulante des niveaux
 	 * ajouter le selected par défaut sur le premier
@@ -205,23 +277,23 @@ function Quiz(){
 		// attention: les Set ont une size, pas une length!
 		var e =  document.getElementById("levels");
 		//var eIndex = e.selectedIndex;
-		console.log("début e.selectedIndex:"+e.selectedIndex);
-		console.log("setLevelsList"+this.levels.size);
+		//console.log("début e.selectedIndex:"+e.selectedIndex);
+		//console.log("setLevelsList"+this.levels.size);
 		var a = "";
 		for (let item of this.levels) a += '<option value="'+item+'">'+item+'</option>';
-		console.log(a);
+		//console.log(a);
 		
 		document.getElementById("levels").innerHTML = a;
 
 		if (this.levelIndex ==-1 || this.levelIndex > this.levels.size){
-			console.log("reset this.levelIndex to 0");
+			//console.log("reset this.levelIndex to 0");
 			this.levelIndex = 0;
 		}
 		console.log("after this.levelIndex:"+this.levelIndex);
 		e.selectedIndex = this.levelIndex;
 		//this.txtLevel = document.getElementById("levels").selected;
-		console.log("Selected:"+document.getElementById("levels").selected);
-		console.log("levels options added");
+		// console.log("Selected:"+document.getElementById("levels").selected);
+		// console.log("levels options added");
 
 		//var val = 3;    
 	//	document.querySelector('#levels [value="' + this.txtLevel + '"]').selected = true;
@@ -269,6 +341,21 @@ function Quiz(){
 	}
 
 
+
+	/**
+ * filtrer les questions en fonctions du numéro et du nombre à prendre
+ * */
+ this.filterNum = function(){
+	 this.startnum = parseInt(document.getElementById("startnum").value);
+	 this.maxnum = parseInt(document.getElementById("maxnum").value);
+	this.qnum = this.startnum-1;
+	this.maxq = this.qnum + this.maxnum;
+	// console.log("startnum:"+this.qnum);
+	// console.log("maxq:"+this.maxq);
+	}
+
+
+
 	
 	/**
 	 * Principale fonction pour afficher les questions 
@@ -280,21 +367,52 @@ function Quiz(){
 		if (this.state == "notReady"){
 			this.load();
 			//this.show( "ajoutez du vocabulaire");
-		}else if (this.qnum == this.jsonObj.length ){
+		}else if (this.qnum == this.jsonObj.length || this.qnum == this.maxq ){
 			this.showFinish();
+			this.round++;
+			this.addRound();
+			console.log("this round"+this.round);
+			console.log("maxround"+this.maxround);
+			// if maxround reached, then go to next set of questions
+			if (this.round == this.maxround){
+				console.log("before startnum"+this.startnum);
+				this.startnum = this.startnum + this.maxnum;
+				//this.qnum = this.startnum;
+				console.log("after startnum"+this.startnum);
+				this.maxq = this.startnum + this.maxnum; // recalculer la dernière question
+				this.resetBar(); // effacer les traits de la barre de progression
+				this.resetRound(); // effacer les étoiles pour redémarrer
+				this.round = 0; // remettre le compteur de tour à zéro
+				//this.load();
+			}else{
+				this.addRound();
+				this.resetBar();
+			}
+			
 			this.state == "ready";
-			this.qnum = 0;
+			this.qnum = this.startnum;
 		}else if (this.state == "ready"){
 			this.showNum(this.qnum);
 			this.state = "checkAnswer";
 		}else if(this.state == "checkAnswer"){
+			//si la réponse est correcte on passe à la question suivante
 			if(this.checkAnswer() == true){
+				this.addBar("c");
 				this.qnum++;
 				this.state = "ready";
 				this.play();
 			}else{
+				//sinon on affiche la correction
 				this.showNum(this.qnum, true);
+				this.addBar("w");
+				//si on est en mode forcefeed on repart au début
+				// sinon on passe à la question suivante
+				if (document.getElementById("forcefeed").checked){
+					console.log("FORCEFEED");
+					this.qnum = this.startnum-1;
+				}else{
 				this.qnum++;
+				}
 				this.state = "ready";
 			}
 		};
@@ -305,13 +423,51 @@ function Quiz(){
 		
 	}
 
+/**
+ * Affiche les étoiles en fonction du round où on est
+ * */
+this.addRound = function(){
+	r = "☆".repeat(this.round);
+	document.getElementById("rounds").innerHTML = r;
+}
+
+
+/**
+ * remet les étoiles des round à zéro
+ * */
+this.resetRound = function(){
+	document.getElementById("rounds").innerHTML = "&nbsp;";
+}
+
+
+/**
+ * Ajoute un "—" à la barre de progression.
+ * La couleur du dash dépend si c'est une bonne ou une mauvaise réponse
+ * @param {string} status indique la class du dash "w" wrong, "c" correct
+ * */
+this.addBar = function (status){
+	document.getElementById("qbar").innerHTML =document.getElementById("qbar").innerHTML + '<span class="'+status+'">—&nbsp;</span>';
+}
+
+this.resetBar = function(){
+	document.getElementById("qbar").innerHTML = "&nbsp;";
+}
+
+
 	/**
 	 * Execute les méthodes de lancement du quiz
 	 **/    
 	this.init = function(){
+		
 		this.load(); // charger le quiz et le vocabulaire
-		this.setLevelsList(); // peuple la liste déroulante des niveaux
-		this.filterLevel();// filtre les questions par le niveau choisis
+		this.translateAll();
+		//console.log(this.trans["description"]["en"]);
+		//console.log("IMPORTANT"+this.i18n("description"));
+		//console.log("IMPORTANT"+this.i18n("title"));
+		//this.setLevelsList(); // peuple la liste déroulante des niveaux
+		//this.setLevelsList(); // peuple la liste déroulante des niveaux
+		//this.filterLevel();// filtre les questions par le niveau choisis
+		this.filterNum();// filtre les questions par le niveau choisis
 		this.play(); // lance la première question
 		//this.show(this.jsonObj[this.qnum][this.qlabel], this.headers[1]); // juste pour tester
 
@@ -339,15 +495,18 @@ function Quiz(){
 
 <body  onload="quiz = new Quiz();">
 	<section class="page-header">
-      <h1 class="project-name">Simple-voc-quiz</h1>
-      <h2 class="project-tagline">One page flashcard quiz</h2>
-      
-        <a href="https://github.com/fxpar/Simple-voc-quiz" class="btn">View on GitHub</a>
-      
-      
-    </section>
+		<h1 class="project-name">Simple-voc-quiz</h1>
+		<h2 class="project-tagline">One page flashcard quiz</h2>
+		
+		  <a href="https://github.com/fxpar/Simple-voc-quiz" class="btn">View on GitHub</a>
+		
+		
+	  </section>
+
 <div class="card">
+	
 	<div id="qbar">&nbsp;</div>
+	<div id="rounds">&nbsp;</div>
 	<div id="qnum">&nbsp;</div>
 	<div id="qcue">&nbsp;</div>
 	<div id="qcorr">&nbsp;</div>
@@ -362,37 +521,154 @@ function Quiz(){
 
 <details>
 <summary>💬voc</summary>
+<div id="userguide"></div>
 <form name="vocForm" id="vocForm"  autocomplete="off" action="#" onsubmit="return false">
-<select name="levels" id="levels" autocomplete="off">
+	<br />
 	
 
-</select>
+<!-- <select name="levels" id="levels" autocomplete="off">
+	
+
+</select> -->
 
 
 <textarea  type="text" rows="5" style="width:100%" id="voc1" >
-Level	Chinois	Pin1yin1	Pinyin	English	Français
-Level01	人	ren2	rén	person	
-Level01	女人	nü3 ren2	nǚ rén	woman	
-Level01	男人	nan2 ren2	nán rén	man	
-Level01	女孩	nü3 hai2	nǚ hái	girl	
-Level02	蓝	lan2	lán	blue	
-Level02	白	bai2	bái	white	
-Level02	黑	hei1	hēi	black	
-Level02	天	tian1	tiān	sky
-Level03	一	yi1	yī	one	
-Level03	二	er4	èr	two	
-Level03	两	liang3	liǎng	a pair, two	
-Level03	三	san1	sān	three	
-Level03	四	si4	sì	four	
-Level03	五	wu3	wǔ	five	
-Level03	六	liu4	liù	six	
-Level03	杯	bei1	bēi	cup	
-Level04	苹果	ping2 guo3	píng guǒ	apple	
-Level04	芒果	mang2 guo3	máng guǒ	mango	
-Level04	西瓜	xi1 gua1	xīguā	watermelon	
-Level04	木瓜	mu4 gua1	mù guā	papaya	</textarea>
-<button onclick="quiz.init();">update</button>
+hanzi	pin1yin1	pīnyīn	english	french	id
+人	ren2	rén	person		1
+女人	nü3 ren2	nǚ rén	woman		2
+男人	nan2 ren2	nán rén	man		3
+女孩	nü3 hai2	nǚ hái	girl		4
+男孩	nan2 hai2	nán hái	boy		5
+你	ni3	nǐ	you		6
+他	ta1	tā	he		7
+她	ta1	tā	she		8
+是	shi4	shì	to be		9
+们	men	men	plural		10
+吃	chi1	chī	to eat		11
+桃	tao2	táo	peach		12
+梨	li2	lí	pear		13
+水果	shui3 guo3	shuǐ guǒ	fruit		14
+在	zai4	zài	in progress		15
+喝	he1	hē	to drink		16
+水	shui3	shuǐ	water		17
+茶	cha2	chá	tea		18
+酒	jiu3	jiǔ	wine		19
+唱	chang4	chàng	to sing		20
+歌	ge1	gē	song		21
+跳	tiao4	tiào	to dance		22
+看	kan4	kàn	to read		23
+书	shu1	shū	book		24
+这	zhe4	zhè	this		25
+那	na4	nà	that		26
+个	ge4	gè	measure people		27
+跳舞	tiao4 wu3	tiào wǔ	to dance		28
+写	xie3	xiě	to write		33
+听	ting1	tīng	to listen		34
+纸	zhi3	zhǐ	paper		35
+信	xin4	xìn	letter, mail		36
+</textarea>
+<br />
+<br />
+<label for="startnum" id="startnumlabel">N° début</label>
+<br />
+	<input type="number" id="startnum" name="startnum" value="1"/>
+<br />
+<br />
+	<label for="maxnum" id="maxnumlabel">nombre de questions</label>
+	<br />
+	<input type="number" id="maxnum" name="maxnum" value="7"/>
+<br />
+<br />
+<br />
+	<label for="colquestion" id="questioncollabel">Colonne de la question</label>
+	<br />
+	<input type="number" id="colquestion" name="colquestion" value="1"/>
+	<br />
+	<br />
+	<label for="colanswer" id="answercollabel">Colonne de la réponse</label>
+	<br />
+	<input type="number" id="colanswer" name="colanswer" value="2"/>
+
+	<br />
+	<br />
+	<br />
+	<label for="maxround" id="maxroundlabel">Colonne de la réponse</label>
+	<br />
+	<input type="maxround" id="maxround" name="maxround" value="3"/>
+
+	<br />
+	<br />
+	<label for="forcefeed" id="forcefeedlabel">Recommencer à chaque erreur</label>
+<input type="checkbox" id="forcefeed" name="forcefeed"/>
+<br />
+	<br />
+<button onclick="quiz.init();" id="updatebtn">update</button>
 </form>
 </details>
+<script type="application/json" id="i18n">
+{
+	"title": {
+		"fr": "quiz en une seule page",
+		"en": "one page quiz"
+	},
+
+	"description": {
+		"fr": "révisez votre vocabulaire par répétition",
+		"en": "flashcard for vocabulary learning by repetition"
+	},
+
+	"userguide": {
+		"fr": "Collez directement le vocabulaire depuis un tableur (Excel, libreoffice, google sheet, number...<br/> Seulement deux colonnes sont nécessaires.",
+		"en": "Simply paste your vocabulary from any spreadsheet (Excel, libreoffice, google, sheet, number...<br /> Only two column are required."
+	}, 
+
+	"startnumlabel": {
+		"fr": "N° début: ",
+		"en": "Start number: "
+	},
+
+	"startnumlabeltitle": {
+		"fr": "Indiquer le numéro de la ligne à laquelle doit commencer le quiz.",
+		"en": "Indicate the number of the row at which you want to start the quiz."
+	},
+
+	"maxnumlabel": {
+		"fr": "Nombre de questions",
+		"en": "Number of questions"
+	},
+
+	"questioncollabel": {
+		"fr": "Colonne de la question",
+		"en": "Column of the question"
+	},
+
+	"answercollabel": {
+		"fr": "Colonne de la réponse",
+		"en": "Column of the answer"
+	},
+
+	"forcefeedlabel": {
+		"fr": "Recommencer à chaque erreur",
+		"en": "Restart on each error"
+	},
+
+	"maxroundlabel": {
+		"fr": "Objectif de répétition sans erreur",
+		"en": "Number of repetition without error to reach"
+	},
+
+	"maxroundlabeltitle": {
+		"fr": "A la fin des tours, le quiz passera au jeu de question suivant",
+		"en": "The quiz will pass to next set of question when you do these rounds without errors"
+	},
+
+	"updatebtn": {
+		"fr": "Appliquer",
+		"en": "update"
+	}
+
+}
+
+</script>
 </body>
 </html>
