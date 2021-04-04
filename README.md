@@ -6,7 +6,7 @@
 
 **just paste from a table**
 1. Simply paste vocabulary from a spreadsheet (Excel, LibreOffice, Number, Google Sheet...)
-1. Click the update butonn
+1. Click the update buton
 1. That's it 😉
 
 **needs just a browser**  
