@@ -68,10 +68,16 @@ But it is a good idea to include one if you have a long list of vocabulary: easi
 * [x] do not go up of the page when submitting answer
 * [x] don't care about lower / upper case (for mobile and tablet with auto capitalization)
 * [ ] strip empty rows in vocabulary
-* [ ] choose which column is used as question
-* [ ] choose which column is used as expected answer
-* [ ] filter a long list of vocabulary by start / end question
+* [x] choose which column is used as question
+* [x] choose which column is used as expected answer
+* [x] filter a long list of vocabulary by start / end question
+* [ ] randomize the set of questions
 * [ ] filter vocabulary by a "tag" column
-# Demo
 
+
+# Demo
+On github:  
+https://fxpar.github.io/Simple-voc-quiz/refactored/?#
+
+On my pedagogy blog:  
 https://www.fxparlant.net/quiz-de-revision-du-vocabulaire/
