@@ -2,10 +2,20 @@
 
 ![Works on windows](https://img.shields.io/badge/Windows-100%25-blue?logo=Windows) ![Works on android](https://img.shields.io/badge/Android-100%25-blue?logo=Android) ![Works on Mac](https://img.shields.io/badge/Mac-100%25-blue?logo=Apple)
 
-# Simple-voc-quiz
+# The most simple flashcard
 1. Simply paste vocabulary from a spreadsheet (Excel, LibreOffice, Number, Google Sheet...)
 1. Click the update butonn
 1. That's it 😉
+
+**needs just a browser**
+It is just a web page, so you just have to open it in a browser 
+**doesn't require a internet connection**  
+you can play anywhere as long as your device / browser accepts to open local html files.
+
+
+(can also be played without internet if your browser supports it).
+
+The minimalistic interface is intended to avoid distraction, and focus on learning.
 
 ![simple voc quiz écran](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz.png)
 
@@ -16,7 +26,7 @@
 ## start where you want
 to start your training at the 10 row of your vocabulary, just type "10" in the box for the start question
 
-## how many questions
+## decide how many questions you want
 you want to learn a set of 7 words at a time? no problem, just type 7 in the box for the number of questions
 
 ## Go to next set when it is memorized
