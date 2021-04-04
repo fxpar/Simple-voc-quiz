@@ -50,6 +50,10 @@ You can easily add your own language at the bottom of the script.
 
 ![more settings](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz-settings.png)
 
+# Note for teachers
+You don't need to have a column with the number of the questions (like the "id" column in the exemple).  
+But it is a good idea to include one if you have a long list of vocabulary: easier to set the start at at the question you want... 
+
 # Features
 * [x] paste from Excel / LibreOffice (detect "tab" separators)
 * [x] use first column as question
