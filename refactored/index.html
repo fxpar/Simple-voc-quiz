@@ -196,6 +196,8 @@ function Quiz(){
        
 		console.log("this.load");
 		//charge les numéro des colonnes pour le cas d'un update
+		this.resetRound();
+		this.resetBar();
 		this.numQstCueCol = document.getElementById("colquestion").value-1; // numéro de la colonne contenant la question
 		this.numQstAnswCol = document.getElementById("colanswer").value-1; // numéro de la colonne contenant la réponses
 		this.maxround = document.getElementById("maxround").value; // nombre de répétitions avant passage au jeu suivant
