@@ -21,6 +21,7 @@ The minimalistic interface is intended to avoid distraction, and focus on learni
 ![écran vocabulaire](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz-2.png)
 
 # Additional features
+![more settings](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz-settings.png)
 
 ## start where you want
 to start your training at the 10 row of your vocabulary, just type "10" in the box for the start question
