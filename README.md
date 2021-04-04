@@ -28,6 +28,11 @@ to start your training at the 10 row of your vocabulary, just type "10" in the b
 ## decide how many questions you want
 you want to learn a set of 7 words at a time? no problem, just type 7 in the box for the number of questions
 
+## change the columns of the question and expected answer
+If you have multiple columns in your vocabulary, you can change at any time, which column will be the question, and on which column you will be interrogated.
+1. just change the number of the column for question and answer below the vocabulary
+2. click the update button
+
 ## Go to next set when it is memorized
 You can tell the quiz to go to the next set of questions after a certain number of rounds. 
 By default, it goes to the next level after three stars ⭐⭐⭐
