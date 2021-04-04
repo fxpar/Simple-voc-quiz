@@ -11,46 +11,6 @@
 	<meta name="robots" content="index,follow" />
 	<link rel="stylesheet" type="text/css" href="styles.css" />
 	<style>
-body {
-	margin:0;
-	padding:0;
-		}
-		
-* {
-	box-sizing: border-box;
-}
-		
-.page-header {
-	padding: 2rem 1rem;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #fff;
-	text-align: center;
-	background-color: #159957;
-	background-image: linear-gradient(120deg, #155799, #159957);
-	line-height: 1.5;
-	font-size: 16px;
-}
-.project-name {
-	font-size: 1.75rem;
-}
-.project-tagline {
-	font-size: 1rem;
-	margin-bottom: 2rem;
-	font-weight: normal;
-	opacity: 0.7;
-}
-		
-.btn {
-	display: inline-block;
-	margin-bottom: 1rem;
-	color: rgba(255,255,255,0.7);
-	background-color: rgba(255,255,255,0.08);
-	border-color: rgba(255,255,255,0.2);
-	border-style: solid;
-	border-width: 1px;
-	border-radius: 0.3rem;
-	transition: color 0.2s, background-color 0.2s, border-color 0.2s;
-}
 
 
 	#qbar {
@@ -89,8 +49,28 @@ body {
 	width:50%;
 	 min-width: 200px;
 	 height: 200px;
-	 
 	}
+
+label{
+	color: indigo;
+
+}
+
+input[type=number]{
+	border:0px ;
+	border-bottom:1px solid lightgrey;
+	width:50%;
+	color:grey;
+	line-height: 1.5;
+	
+}
+
+#updatebtn {
+	background-color: indigo;
+	color:white;
+	font-size: 1.5;
+	line-height: 2;
+}
 	
 	@media only screen and (max-width: 600px) {
   .card {
@@ -258,11 +238,13 @@ function Quiz(){
 
 	this.translateAll = function(){
 		this.translateId("userguide", undefined, "innerHTML");
+		this.translateId("voc1label", undefined, "innerHTML");
 		this.translateId("startnumlabel", undefined, "innerHTML");
 		this.translateId("startnumlabel", "startnumlabeltitle", "title");
 		this.translateId("maxroundlabel", undefined, "innerHTML");
 		this.translateId("maxroundlabel", "maxroundlabeltitle", "title");
 		this.translateId("maxnumlabel", undefined, "innerHTML");
+		this.translateId("forcefeedlabel", undefined, "innerHTML");
 		this.translateId("questioncollabel", undefined, "innerHTML");
 		this.translateId("answercollabel", undefined, "innerHTML");
 		this.translateId("updatebtn", undefined, "innerHTML");
@@ -494,15 +476,6 @@ this.resetBar = function(){
 </head>
 
 <body  onload="quiz = new Quiz();">
-	<section class="page-header">
-		<h1 class="project-name">Simple-voc-quiz</h1>
-		<h2 class="project-tagline">One page flashcard quiz</h2>
-		
-		  <a href="https://github.com/fxpar/Simple-voc-quiz" class="btn">View on GitHub</a>
-		
-		
-	  </section>
-
 <div class="card">
 	
 	<div id="qbar">&nbsp;</div>
@@ -531,8 +504,8 @@ this.resetBar = function(){
 
 </select> -->
 
-
-<textarea  type="text" rows="5" style="width:100%" id="voc1" >
+<label for="voc1" id="voc1label">Paste your voc from a table (with titles)</label>
+<textarea  type="text" rows="5" style="width:100%" id="voc1" name="voc1" >
 hanzi	pin1yin1	pīnyīn	english	french	id
 人	ren2	rén	person		1
 女人	nü3 ren2	nǚ rén	woman		2
@@ -594,7 +567,7 @@ hanzi	pin1yin1	pīnyīn	english	french	id
 	<br />
 	<label for="maxround" id="maxroundlabel">Colonne de la réponse</label>
 	<br />
-	<input type="maxround" id="maxround" name="maxround" value="3"/>
+	<input type="number" id="maxround" name="maxround" value="3"/>
 
 	<br />
 	<br />
@@ -618,13 +591,18 @@ hanzi	pin1yin1	pīnyīn	english	french	id
 	},
 
 	"userguide": {
-		"fr": "Collez directement le vocabulaire depuis un tableur (Excel, libreoffice, google sheet, number...<br/> Seulement deux colonnes sont nécessaires.",
-		"en": "Simply paste your vocabulary from any spreadsheet (Excel, libreoffice, google, sheet, number...<br /> Only two column are required."
+		"fr": "Collez directement le vocabulaire depuis un tableur (Excel, libreoffice, google sheet, number...<br/> Il vous faut au moins deux colonnes.<br/> Et cliquez sur le bouton \"mettre à jour\"",
+		"en": "Simply paste your vocabulary from any spreadsheet (Excel, libreoffice, google, sheet, number...<br /> You need at least two columns.<br/>And click on the \"update\" button."
 	}, 
 
 	"startnumlabel": {
 		"fr": "N° début: ",
 		"en": "Start number: "
+	},
+
+	"voc1label": {
+		"fr": "collez votre vocabulaire depuis un tableau (avec les titres)",
+		"en": "Paste your vocabulary from a table (with the column titles) "
 	},
 
 	"startnumlabeltitle": {
