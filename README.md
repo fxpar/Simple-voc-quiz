@@ -1,5 +1,6 @@
-![works also offline](https://img.shields.io/badge/Ready%20for%20Offline-100%25-green) ![Cognitive load](https://img.shields.io/badge/Minimum%20cognitive20load-100%25-green) 
-![Works on windows](https://img.shields.io/badge/Windows-100%25-green?logo=Windows) ![Works on android](https://img.shields.io/badge/Windows-100%25-green?logo=Android) ![Works on Mac](https://img.shields.io/badge/Windows-100%25-green?logo=Apple)
+![works also offline](https://img.shields.io/badge/Ready%20for%20Offline-100%25-green) ![Cognitive load](https://img.shields.io/badge/Minimum%20cognitive%20load-100%25-green) 
+
+![Works on windows](https://img.shields.io/badge/Windows-100%25-blue?logo=Windows) ![Works on android](https://img.shields.io/badge/Android-100%25-blue?logo=Android) ![Works on Mac](https://img.shields.io/badge/Mac-100%25-blue?logo=Apple)
 
 # Simple-voc-quiz
 
