@@ -12,7 +12,7 @@
 **needs just a browser**  
 It is just a web page, so you just have to open it in a browser  
 
-**doesn't require a internet connection**   
+**doesn't require internet**   
 you can play anywhere as long as your device / browser accepts to open local html files.
 
 **designed for best memorization**  
