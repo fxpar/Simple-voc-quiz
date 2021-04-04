@@ -32,6 +32,10 @@ you want to learn a set of 7 words at a time? no problem, just type 7 in the box
 You can tell the quiz to go to the next set of questions after a certain number of rounds. 
 By default, it goes to the next level after three stars ⭐⭐⭐
 
+## Force feed your brain
+You want it hard? You can set the "force feed mode", so that each mistakes shows you the correct answer... and goes back at the beginning of the set.  
+Very good for maximum repetition and for discovery mode, one new word at a time.
+
 ## Internationalization
 The quiz includes a french and an english interface.  
 You can easily add your own language at the bottom of the script.
