@@ -3,6 +3,8 @@
 ![Works on windows](https://img.shields.io/badge/Windows-100%25-blue?logo=Windows) ![Works on android](https://img.shields.io/badge/Android-100%25-blue?logo=Android) ![Works on Mac](https://img.shields.io/badge/Mac-100%25-blue?logo=Apple)
 
 # The most simple flashcard
+
+**just paste from a table**
 1. Simply paste vocabulary from a spreadsheet (Excel, LibreOffice, Number, Google Sheet...)
 1. Click the update butonn
 1. That's it 😉
