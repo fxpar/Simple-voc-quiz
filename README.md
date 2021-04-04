@@ -9,12 +9,11 @@
 
 **needs just a browser**  
 It is just a web page, so you just have to open it in a browser  
+
 **doesn't require a internet connection**   
 you can play anywhere as long as your device / browser accepts to open local html files.
 
-
-(can also be played without internet if your browser supports it).
-
+**designed for best memorization**  
 The minimalistic interface is intended to avoid distraction, and focus on learning.
 
 ![simple voc quiz écran](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz.png)
