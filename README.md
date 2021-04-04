@@ -23,7 +23,7 @@ The minimalistic interface is intended to avoid distraction, and focus on learni
 ![écran vocabulaire](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz-2.png)
 
 # Additional features
-![more settings](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz-settings.png)
+
 
 ## start where you want
 to start your training at the 10 row of your vocabulary, just type "10" in the box for the start question
@@ -47,6 +47,8 @@ Very good for maximum repetition and for discovery mode, one new word at a time.
 ## Internationalization
 The quiz includes a french and an english interface.  
 You can easily add your own language at the bottom of the script.
+
+![more settings](https://github.com/fxpar/Simple-voc-quiz/blob/main/simple-voc-quiz-settings.png)
 
 # Features
 * [x] paste from Excel / LibreOffice (detect "tab" separators)
